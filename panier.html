@@ -1,0 +1,267 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Panier — Guizky</title>
+
+<style>
+*{box-sizing:border-box}
+
+body{
+margin:0;
+font-family:Arial,sans-serif;
+color:#26352f;
+background:#fbfaf6;
+}
+
+header{
+height:70px;
+background:white;
+border-bottom:1px solid #e5e2da;
+display:flex;
+align-items:center;
+justify-content:space-between;
+padding:0 5%;
+}
+
+.logo{
+font-size:25px;
+font-weight:bold;
+}
+
+header a{
+background:#26352f;
+color:white;
+padding:10px 15px;
+border-radius:20px;
+text-decoration:none;
+}
+
+main{
+max-width:900px;
+margin:auto;
+padding:60px 6%;
+}
+
+h1{
+font-size:40px;
+}
+
+.cart-item{
+background:white;
+border:1px solid #e4e2da;
+border-radius:14px;
+padding:18px;
+margin:12px 0;
+display:flex;
+align-items:center;
+justify-content:space-between;
+gap:15px;
+}
+
+.name{
+font-weight:bold;
+font-size:18px;
+}
+
+.controls{
+display:flex;
+align-items:center;
+gap:10px;
+}
+
+button{
+border:0;
+background:#26352f;
+color:white;
+padding:8px 12px;
+border-radius:7px;
+cursor:pointer;
+}
+
+.delete{
+background:#9b4c4c;
+}
+
+.total{
+display:flex;
+justify-content:space-between;
+font-size:23px;
+font-weight:bold;
+border-top:1px solid #ddd;
+padding-top:25px;
+margin-top:25px;
+}
+
+.checkout{
+width:100%;
+padding:15px;
+font-size:17px;
+margin-top:20px;
+}
+
+.empty{
+padding:30px 0;
+color:#66716c;
+}
+
+@media(max-width:600px){
+.cart-item{
+flex-direction:column;
+align-items:flex-start;
+}
+
+.controls{
+width:100%;
+justify-content:flex-end;
+}
+}
+</style>
+</head>
+
+<body>
+
+<header>
+<div class="logo">Guizky 🐾</div>
+<a href="index.html">← Boutique</a>
+</header>
+
+<main>
+
+<h1>Votre panier</h1>
+
+<div id="cart"></div>
+
+<div class="total">
+<span>Total</span>
+<span id="total">0,00 €</span>
+</div>
+
+<button class="checkout" onclick="checkout()">
+Passer au paiement
+</button>
+
+</main>
+
+<script>
+
+function getCart(){
+return JSON.parse(localStorage.getItem("guizkyCart")||"[]");
+}
+
+function saveCart(cart){
+localStorage.setItem("guizkyCart",JSON.stringify(cart));
+}
+
+function displayCart(){
+
+let cart=getCart();
+let container=document.getElementById("cart");
+
+if(cart.length===0){
+
+container.innerHTML=
+'<p class="empty">Votre panier est actuellement vide.</p>';
+
+document.getElementById("total").textContent="0,00 €";
+
+return;
+}
+
+container.innerHTML="";
+
+let total=0;
+
+cart.forEach((product,index)=>{
+
+total+=product.price*product.quantity;
+
+let item=document.createElement("div");
+
+item.className="cart-item";
+
+item.innerHTML=`
+
+<div>
+<div class="name">${product.name}</div>
+<div>${product.price.toFixed(2).replace(".",",")} €</div>
+</div>
+
+<div class="controls">
+
+<button onclick="changeQuantity(${index},-1)">−</button>
+
+<strong>${product.quantity}</strong>
+
+<button onclick="changeQuantity(${index},1)">+</button>
+
+<button class="delete" onclick="removeProduct(${index})">
+🗑️
+</button>
+
+</div>
+
+`;
+
+container.appendChild(item);
+
+});
+
+document.getElementById("total").textContent=
+total.toFixed(2).replace(".",",")+" €";
+
+}
+
+function changeQuantity(index,change){
+
+let cart=getCart();
+
+cart[index].quantity+=change;
+
+if(cart[index].quantity<=0){
+cart.splice(index,1);
+}
+
+saveCart(cart);
+
+displayCart();
+
+}
+
+function removeProduct(index){
+
+let cart=getCart();
+
+cart.splice(index,1);
+
+saveCart(cart);
+
+displayCart();
+
+}
+
+function checkout(){
+
+let cart=getCart();
+
+if(cart.length===0){
+
+alert("Votre panier est vide.");
+
+return;
+
+}
+
+alert(
+"Le paiement sera connecté prochainement. Cette version est actuellement en préparation."
+);
+
+}
+
+displayCart();
+
+</script>
+
+</body>
+</html>
