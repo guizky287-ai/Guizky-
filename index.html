@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Guizky — Accessoires pour chiens et chats</title>
+<style>
+*{box-sizing:border-box}
+body{margin:0;font-family:Arial,sans-serif;color:#26352f;background:#fbfaf6}
+header{height:70px;background:white;border-bottom:1px solid #e5e2da;display:flex;align-items:center;justify-content:space-between;padding:0 5%}
+.logo{font-size:25px;font-weight:bold;color:#26352f}
+.cart{background:#26352f;color:white;padding:10px 15px;border-radius:20px;text-decoration:none}
+.hero{padding:70px 6%;text-align:center;background:#e9eee6}
+.hero h1{font-size:42px;line-height:1.1;margin:10px auto 20px;max-width:700px}
+.hero p{font-size:18px;color:#5f6b65;max-width:650px;margin:0 auto 30px}
+.btn{display:inline-block;background:#26352f;color:white;padding:14px 22px;border-radius:10px;text-decoration:none;font-weight:bold}
+section{max-width:1100px;margin:auto;padding:55px 6%}
+h2{text-align:center;font-size:32px;margin-bottom:30px}
+.products{display:grid;grid-template-columns:repeat(3,1fr);gap:20px}
+.product{background:white;border:1px solid #e4e2da;border-radius:16px;overflow:hidden}
+.image{height:190px;background:#eee9dc;display:flex;align-items:center;justify-content:center;font-size:75px}
+.info{padding:20px}
+.info h3{font-size:20px;margin:5px 0 10px}
+.info p{color:#68736d;min-height:60px}
+.bottom{display:flex;align-items:center;justify-content:space-between}
+.price{font-size:20px;font-weight:bold}
+button{background:#26352f;color:white;border:0;padding:10px 14px;border-radius:8px;font-weight:bold;cursor:pointer}
+.benefits{background:#e9eee6;max-width:none;text-align:center}
+.benefit-list{max-width:1000px;margin:auto;display:flex;justify-content:space-around;gap:25px}
+.benefit{flex:1}
+.benefit span{font-size:35px}
+footer{background:#26352f;color:white;padding:35px 6%;text-align:center}
+footer p{color:#d0d8d2}
+@media(max-width:750px){
+.products{grid-template-columns:1fr}
+.hero h1{font-size:34px}
+.benefit-list{flex-direction:column}
+header{padding:0 4%}
+}
+</style>
+</head>
+
+<body>
+
+<header>
+<div class="logo">Guizky 🐾</div>
+<a class="cart" href="panier.html">🛒 Panier</a>
+</header>
+
+<section class="hero">
+<p>POUR CHIENS & CHATS</p>
+<h1>Des accessoires pensés pour leur quotidien.</h1>
+<p>
+Une sélection simple de produits pratiques et ludiques
+pour partager encore plus de bons moments avec votre compagnon.
+</p>
+<a class="btn" href="#produits">Découvrir nos produits</a>
+</section>
+
+<section id="produits">
+<h2>Notre sélection</h2>
+
+<div class="products">
+
+<div class="product">
+<div class="image">🐶</div>
+<div class="info">
+<h3>Pack Tapis de Léchage + Balle</h3>
+<p>Un duo ludique pour les moments de détente et de récompense.</p>
+<div class="bottom">
+<span class="price">24,90 €</span>
+<button onclick="addCart('Pack Tapis de Léchage + Balle',24.90)">
+Ajouter
+</button>
+</div>
+</div>
+</div>
+
+<div class="product">
+<div class="image">🦴</div>
+<div class="info">
+<h3>Jouet Distributeur de Friandises</h3>
+<p>Un accessoire ludique pour occuper votre chien avec ses récompenses.</p>
+<div class="bottom">
+<span class="price">19,90 €</span>
+<button onclick="addCart('Jouet Distributeur de Friandises',19.90)">
+Ajouter
+</button>
+</div>
+</div>
+</div>
+
+<div class="product">
+<div class="image">🐱</div>
+<div class="info">
+<h3>Jouet Interactif pour Chat</h3>
+<p>Un accessoire ludique pour les moments de jeu à la maison.</p>
+<div class="bottom">
+<span class="price">14,90 €</span>
+<button onclick="addCart('Jouet Interactif pour Chat',14.90)">
+Ajouter
+</button>
+</div>
+</div>
+</div>
+
+</div>
+</section>
+
+<section class="benefits">
+<h2>Pourquoi Guizky ?</h2>
+<div class="benefit-list">
+<div class="benefit">
+<span>🐾</span>
+<h3>Sélection simple</h3>
+<p>Des accessoires choisis pour le quotidien.</p>
+</div>
+
+<div class="benefit">
+<span>📦</span>
+<h3>Commande en ligne</h3>
+<p>Un parcours pensé pour le téléphone.</p>
+</div>
+
+<div class="benefit">
+<span>💚</span>
+<h3>Pour leurs moments</h3>
+<p>Jeu, occupation et complicité.</p>
+</div>
+</div>
+</section>
+
+<footer>
+<strong>Guizky 🐾</strong>
+<p>Des accessoires pour partager de bons moments avec vos compagnons.</p>
+<p>© 2026 Guizky</p>
+</footer>
+
+<script>
+function addCart(name,price){
+let cart=JSON.parse(localStorage.getItem("guizkyCart")||"[]");
+let product=cart.find(p=>p.name===name);
+
+if(product){
+product.quantity++;
+}else{
+cart.push({
+name:name,
+price:price,
+quantity:1
+});
+}
+
+localStorage.setItem("guizkyCart",JSON.stringify(cart));
+alert("Produit ajouté au panier !");
+}
+</script>
+
+</body>
+</html>
